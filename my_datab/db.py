@@ -5,15 +5,22 @@ import redis
 
 async def redis_pool() -> redis.Redis:
     my_redis = redis.from_url(
-        'redis://rd_database',
+        f'redis://rd_database',
         encoding='utf-8',
         db=0,
         decode_responses=True,
     )
     return my_redis
 
+POSTGRES_USER = 'postgres'
+POSTGRES_PASSWORD = 'postgres'
+POSTGRES_HOST = 'postgres'
+POSTGRES_DB = 'default_database'
+POSTGRES_PORT = 5432
 
-POSTGRES_URL = f'postgresql://{getenv("POSTGRES_USER")}:{getenv("POSTGRES_PASSWORD")}@{getenv("POSTGRES_HOST")}:{getenv("POSTGRES_PORT")}/{getenv("POSTGRES_DB")}'
-database_pg = databases.Database(POSTGRES_URL)
+POSTGRES_URL = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}'
+postgres_db = databases.Database(POSTGRES_URL)
 
-client = redis.Redis(host=getenv('REDIS_HOST'))
+
+
+

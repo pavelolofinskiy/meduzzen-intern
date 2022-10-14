@@ -1,5 +1,7 @@
 FROM python:3.9
 
+ENV PYTHONPATH "${PYTHONPATH}:/FastAPIIntern"
+
 EXPOSE 8000/tcp
 
 WORKDIR /FastAPIIntern
