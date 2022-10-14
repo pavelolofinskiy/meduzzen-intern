@@ -1,8 +1,6 @@
 from fastapi import FastAPI
-from db import database_pg
-from db import database_rd
-
-url_redis = 'redis://:password@hostname:port/0'
+from my_datab import db
+from my_datab import db
 
 
 app = FastAPI()
@@ -10,9 +8,9 @@ app = FastAPI()
 
 @app.on_event("startup")
 async def startup():
-    await database_pg.connect()
+    app.state.redis = await db.redis_pool()
+
+startup()
 
 
-@app.on_event("startup")
-async def startup():
-    await database_rd.connect()
+

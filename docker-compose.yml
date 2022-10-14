@@ -20,7 +20,7 @@ services:
     volumes:
       - ./pg_db:/docker-entrypoint-initdb.d
 
-  rd_db:
+  rd_database:
     image: redis
     container_name: redis
     restart: always
@@ -28,6 +28,7 @@ services:
       - ${REDIS_PORT}:${REDIS_PORT}
     volumes:
       - ./rd_db:/data
+    command: [ "redis-server", "/data" ]
 
 volumes:
   database_postgres:
