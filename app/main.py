@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from my_datab.db import postgres_db, redis_pool
+from app.db import redis_pool, postgres_db
 
 
 app = FastAPI()
@@ -12,6 +12,7 @@ async def startup():
 
 
 startup()
+
 
 
 
