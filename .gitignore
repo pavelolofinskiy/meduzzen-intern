@@ -51,3 +51,4 @@ docs/_build/
 .env
 pg_db
 rd_db
+settings.ini
