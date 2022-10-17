@@ -4,7 +4,7 @@ EXPOSE 8000/tcp
 
 WORKDIR /FastAPIIntern
 
-COPY ./requirements.txt /FastAPIIntern/requirements.txt
+COPY requirements.txt /FastAPIIntern/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /FastAPIIntern/requirements.txt
 
