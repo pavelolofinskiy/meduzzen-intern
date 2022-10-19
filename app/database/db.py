@@ -2,10 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
 from aioredis import from_url
+import databases
+from sqlalchemy.ext import declarative
 
 POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'postgres')
-POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'postgres')
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
 POSTGRES_DB = os.environ.get('POSTGRES_DB', 'default_database')
 POSTGRES_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
@@ -22,5 +24,6 @@ postgres_engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=postgres_engine)
 
+postgres_db = databases.Database(DATABASE_URL)
 
-
+Base = declarative.declarative_base()

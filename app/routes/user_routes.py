@@ -1,8 +1,17 @@
 from app.database.db import postgres_engine
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy.future import select
+from app.database.db import SessionLocal
+from app.models.models import User
+from fastapi import APIRouter
+from app.shemas.schemas import UserCreateSchema
 
-app = FastAPI()
 
-@app.get('/', status_code=200)
-async def root():
-    return {'status':'Working!', 'postgres': postgres_engine.__str__()}
+router = APIRouter()
+app = FastAPI
+
+
+
+
+
+
