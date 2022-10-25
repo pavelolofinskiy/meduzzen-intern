@@ -52,3 +52,7 @@ docs/_build/
 pg_db
 rd_db
 settings.ini
+pgadmin4.db
+sessions
+storage
+azurecredentialcache
