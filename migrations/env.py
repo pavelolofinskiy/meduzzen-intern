@@ -1,5 +1,6 @@
 from logging.config import fileConfig
-
+from app.database.db import POSTGRES_URL
+import sqlalchemy
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
@@ -16,15 +17,16 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-target_metadata = None
+from app.models import models
+target_metadata = models.Base.metadata
+#target_metadata = None
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+config.set_main_option('sqlalchemy.url', POSTGRES_URL)
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
