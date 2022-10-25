@@ -26,4 +26,3 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=postgres_eng
 
 postgres_db = databases.Database(DATABASE_URL)
 
-Base = declarative.declarative_base()
