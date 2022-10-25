@@ -1,25 +1,26 @@
-from app.models.models import User
-from app.database.db import SessionLocal, Base, postgres_engine
-from app.shemas.schemas import UserCreateSchema, ResponseUserId
+from app.database.db import postgres_db, Session
+from app.shemas.schemas import UserCreateSchema
+from app.models.models import users
+from fastapi import HTTPException, status
 
 
-async def add_tables():
-    return Base.metadata.create_all(bind=postgres_engine)
+
+class UserCrud:
+    @staticmethod
+    async def create_user(user: UserCreateSchema):
+        db_user = users.insert().values(email=user.email, username=user.username, password=user.password)
+        user_id = await postgres_db.execute(db_user)
+        if user_id:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'user with id {user_id} already exists')
+        return dict(**user.dict(), id=user_id)
+
+    @staticmethod
+    async def get_users():
+        results = await postgres_db.fetch_all(users.select())
+        return [dict(result) for result in results]
 
 
-async def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
-
-async def create_user(request: UserCreateSchema, db: 'Session') -> UserCreateSchema:
-    user = UserCreateSchema(username=request.username, email=request.email, password=request.password, id=request.id)
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return user
-
-
+    @staticmethod
+    async def edit_user():
+        results = await postgres_db.fetch_all(users.select())

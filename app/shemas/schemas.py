@@ -2,10 +2,9 @@ from pydantic import BaseModel, EmailStr, Field
 
 
 class UserCreateSchema(BaseModel):
-    username: str = Field(min_length=6, max_length=24)
-    password: str = Field(min_length=6, max_length=24)
+    username: str
+    password: str
     email: EmailStr
-    id: int
 
     class Config:
         orm_mode: True
@@ -21,3 +20,8 @@ class UserLoginSchema(BaseModel):
 
 class ResponseUserId(BaseModel):
     id: int
+
+    class Config:
+        orm_mode: True
+
+
