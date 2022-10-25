@@ -13,7 +13,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 async def startup():
-    postgres_db.connect()
+    await postgres_db.connect()
 
 
 @app.get('/', status_code=200)
