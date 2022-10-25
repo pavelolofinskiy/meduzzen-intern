@@ -12,4 +12,4 @@ class User(Base):
     email = Column('email', String, index=True)
 
 
-users = User.__table__
+my_users = User.__table__

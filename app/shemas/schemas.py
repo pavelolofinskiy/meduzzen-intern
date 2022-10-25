@@ -1,7 +1,7 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr
 
 
-class UserCreateSchema(BaseModel):
+class UserCreate(BaseModel):
     username: str
     password: str
     email: EmailStr
@@ -10,9 +10,9 @@ class UserCreateSchema(BaseModel):
         orm_mode: True
 
 
-class UserLoginSchema(BaseModel):
-    email: EmailStr
-    password: str = Field(min_length=6, max_length=24)
+class UserUpdate(BaseModel):
+    username: str
+    password: str
 
     class Config:
         orm_mode: True

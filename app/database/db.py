@@ -26,8 +26,6 @@ Session = sessionmaker(autocommit=False, autoflush=False, bind=postgres_engine)
 
 postgres_db = databases.Database(POSTGRES_URL)
 
-Base = declarative.declarative_base()
-
 
 def get_db():
     db = Session()
