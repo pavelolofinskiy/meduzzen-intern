@@ -54,4 +54,5 @@ rd_db
 settings.ini
 sessions
 storage
+pg_admin
 
