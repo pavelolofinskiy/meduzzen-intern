@@ -1,17 +1,16 @@
 from app.database.db import postgres_db, Session
-from app.shemas.schemas import UserUpdate, UserCreate
+from app.shemas.schemas import UserUpdate, UserCreate, ResponseUserId
 from app.models.models import my_users, User
 from fastapi import HTTPException, status
 
 
 class UserCrud:
     @staticmethod
-    async def create_user(user: UserCreate):
+    async def create_user(user: UserCreate) -> ResponseUserId:
         db_user = my_users.insert().values(email=user.email, username=user.username, password=user.password)
         user_id = await postgres_db.execute(db_user)
-        if user_id:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'user with id {user_id} already exists')
-        return dict(**user.dict(), id=user_id)
+        return ResponseUserId(id=user_id)
+
 
     @staticmethod
     async def get_users():
@@ -24,14 +23,14 @@ class UserCrud:
         return user
 
     @staticmethod
-    async def update_user(id: int, request: UserUpdate, db: Session):
-        user = db.query(User).filter(User.id == id)
+    async def update_user(id: int, request: UserUpdate):
+        user = my_users.query(User).filter(User.id == id)
         items = dict(password=request.password, username=request.username)
         if not user.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                                 detail=f"User with id {id} not found")
         user.update(items)
-        db.commit()
+        my_users.commit()
         return 'update'
 
     @staticmethod

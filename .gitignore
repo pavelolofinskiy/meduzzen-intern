@@ -54,4 +54,6 @@ rd_db
 settings.ini
 sessions
 storage
-
+azurecredentialcache
+pg_admin
+pgadmin4.db
