@@ -25,11 +25,3 @@ postgres_engine = create_engine(POSTGRES_URL)
 Session = sessionmaker(autocommit=False, autoflush=False, bind=postgres_engine)
 
 postgres_db = databases.Database(POSTGRES_URL)
-
-
-def get_db():
-    db = Session()
-    try:
-        yield db
-    finally:
-        db.close()
