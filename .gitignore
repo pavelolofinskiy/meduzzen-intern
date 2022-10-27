@@ -57,3 +57,6 @@ storage
 azurecredentialcache
 pg_admin
 pgadmin4.db
+sessions
+storage
+

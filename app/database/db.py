@@ -28,3 +28,4 @@ postgres_db = databases.Database(POSTGRES_URL)
 
 metadata = MetaData()
 
+
