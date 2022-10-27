@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.database.db import postgres_engine, postgres_db, get_db, Session
+from app.database.db import postgres_engine, postgres_db
 from app.shemas.schemas import UserCreate, ResponseUserId, UserUpdate
 from app.services.services import UserCrud
 from typing import List
@@ -22,25 +22,26 @@ async def startup():
 async def root():
     return {'status':'Working!', 'postgres': postgres_engine.__str__()}
 
-@router.get('/{id}')
-async def get_users():
-    return await UserCrud.get_users()
+
+
 
 
 @router.post('/user', response_model=ResponseUserId)
-async def create(user: UserCreate):
+async def create(user: UserCreate) -> ResponseUserId:
     return await UserCrud.create_user(user=user)
 
 
-@router.delete('/{id}')
-async def destroy(id: int, db: Session = Depends(get_db)):
-    return await UserCrud.delete(id, db)
+@router.delete('/{id}', response_model=ResponseUserId)
+async def destroy(id: int):
+    return await UserCrud.delete(id=id)
 
 
-@router.put('/{id}')
-async def update(id: int, request: UserUpdate, db: Session = Depends(get_db)):
-    return await UserCrud.update_user(id, request, db)
+@router.put('/{id}', response_model=ResponseUserId)
+async def update(id: int, user_in: UserUpdate):
+    return await UserCrud.update_user(id=id, user_in=user_in)
 
-@router.get('/{id}')
+
+@router.get('/{id}', response_model=UserCreate)
 async def get_by_id(id: int):
-    return await UserCrud.get_by_id(id=id)
+    user = UserCrud.get_by_id(id=id)
+    return user

@@ -1,9 +1,9 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 import os
 from aioredis import from_url
 import databases
-from sqlalchemy.ext import declarative
+
 
 POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'postgres')
@@ -26,10 +26,5 @@ Session = sessionmaker(autocommit=False, autoflush=False, bind=postgres_engine)
 
 postgres_db = databases.Database(POSTGRES_URL)
 
+metadata = MetaData()
 
-def get_db():
-    db = Session()
-    try:
-        yield db
-    finally:
-        db.close()
