@@ -23,9 +23,6 @@ async def root():
     return {'status':'Working!', 'postgres': postgres_engine.__str__()}
 
 
-
-
-
 @router.post('/user', response_model=ResponseUserId)
 async def create(user: UserCreate) -> ResponseUserId:
     return await UserCrud.create_user(user=user)
