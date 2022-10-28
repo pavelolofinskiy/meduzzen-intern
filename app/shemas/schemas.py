@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from typing import List
 
 
 class UserCreate(BaseModel):
@@ -24,4 +25,16 @@ class ResponseUserId(BaseModel):
     class Config:
         orm_mode: True
 
+
+class PublicUser(BaseModel):
+    username: str
+    email: EmailStr
+    id: int
+
+    class Config:
+        orm_mode: True
+
+
+class Users(BaseModel):
+    users: List[PublicUser] = []
 
