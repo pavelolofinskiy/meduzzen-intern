@@ -1,8 +1,5 @@
 from sqlalchemy import Integer, String, Column, Table
-from sqlalchemy.ext.declarative import declarative_base
 from app.database.db import metadata
-
-Base = declarative_base()
 
 users = Table(
     'users',
