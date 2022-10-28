@@ -1,21 +1,10 @@
-from fastapi import FastAPI
-from app.database.db import postgres_engine, postgres_db
-from app.shemas.schemas import UserCreate, ResponseUserId, UserUpdate
+from app.database.db import postgres_engine
+from app.models.models import users as DBUser
+from app.shemas.schemas import UserCreate, ResponseUserId, UserUpdate, PublicUser, Users
 from app.services.services import UserCrud
-from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
 router = APIRouter()
-
-
-@router.on_event("startup")
-async def startup():
-    await postgres_db.connect()
-
-
-@router.on_event("shutdown")
-async def startup():
-    await postgres_db.disconnect()
 
 
 @router.get('/', status_code=200)
@@ -25,20 +14,31 @@ async def root():
 
 @router.post('/user', response_model=ResponseUserId)
 async def create(user: UserCreate) -> ResponseUserId:
-    return await UserCrud.create_user(user=user)
+    crud = UserCrud(db_user=DBUser)
+    return await crud.create_user(user=user)
 
 
 @router.delete('/{id}', response_model=ResponseUserId)
-async def destroy(id: int):
-    return await UserCrud.delete(id=id)
+async def destroy(id: int) -> ResponseUserId:
+    crud = UserCrud(db_user=DBUser)
+    return await crud.delete_user(id=id)
 
 
 @router.put('/{id}', response_model=ResponseUserId)
-async def update(id: int, user_in: UserUpdate):
-    return await UserCrud.update_user(id=id, user_in=user_in)
+async def update(id: int, user_in: UserUpdate) -> ResponseUserId:
+    crud = UserCrud(db_user=DBUser)
+    return await crud.update_user(id=id, user_in=user_in)
 
 
-@router.get('/{id}', response_model=UserCreate)
-async def get_by_id(id: int):
-    user = UserCrud.get_by_id(id=id)
+@router.get('/users', response_model=Users)
+async def get_users() -> Users:
+    crud = UserCrud(db_user=DBUser)
+    user = await crud.get_users()
+    return user
+
+
+@router.get('/{id}', response_model=PublicUser)
+async def get_by_id(id: int) -> PublicUser:
+    crud = UserCrud(db_user=DBUser)
+    user = await crud.get_by_id(id=id)
     return user
