@@ -17,7 +17,7 @@ class UserCrud:
 
     async def get_users(self) -> Users:
         results = await postgres_db.fetch_all(self.db_user.select())
-        users = [dict(result) for result in results]
+        users = [PublicUser(result) for result in results]
         return Users(users=users)
 
     async def get_by_id(self, id: int) -> PublicUser:
