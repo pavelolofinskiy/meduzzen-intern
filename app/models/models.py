@@ -1,12 +1,14 @@
-from sqlalchemy import Integer, String, Column
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Integer, String, Column, Table
+from app.database.db import metadata
 
-Base = declarative_base()
+users = Table(
+    'users',
+    metadata,
+    Column('username', String, index=True),
+    Column('password', String),
+    Column('id', Integer, primary_key=True, index=True),
+    Column('email', String, index=True),
+)
 
 
-class User(Base):
-    __tablename__ = 'users'
-    username = Column('username', String, primary_key=True, index=True)
-    password = Column('password', String)
-    id = Column('id', Integer, primary_key=True, index=True)
-    email = Column('email', String, primary_key=True, index=True)
+

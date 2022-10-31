@@ -1,19 +1,19 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr
+from typing import List
 
 
-class UserCreateSchema(BaseModel):
-    username: str = Field(min_length=6, max_length=24)
-    password: str = Field(min_length=6, max_length=24)
+class UserCreate(BaseModel):
+    username: str
+    password: str
     email: EmailStr
-    id: int
 
     class Config:
         orm_mode: True
 
 
-class UserLoginSchema(BaseModel):
-    email: EmailStr
-    password: str = Field(min_length=6, max_length=24)
+class UserUpdate(BaseModel):
+    username: str
+    password: str
 
     class Config:
         orm_mode: True
@@ -21,3 +21,20 @@ class UserLoginSchema(BaseModel):
 
 class ResponseUserId(BaseModel):
     id: int
+
+    class Config:
+        orm_mode: True
+
+
+class PublicUser(BaseModel):
+    username: str
+    email: EmailStr
+    id: int
+
+    class Config:
+        orm_mode: True
+
+
+class Users(BaseModel):
+    users: List[PublicUser] = []
+

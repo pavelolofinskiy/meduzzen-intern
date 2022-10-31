@@ -1,9 +1,9 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 import os
 from aioredis import from_url
 import databases
-from sqlalchemy.ext import declarative
+
 
 POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'postgres')
@@ -17,12 +17,15 @@ REDIS_HOST = os.environ.get('redis_host', 'redis')
 REDIS_DB = os.environ.get('REDIS_DB', 'db')
 
 
-DATABASE_URL = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}'
+POSTGRES_URL = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}'
 redis_engine = from_url(f'redis://{REDIS_HOST}/{REDIS_DB}', username=REDIS_USER, password=REDIS_PASSWORD)
 
-postgres_engine = create_engine(DATABASE_URL)
+postgres_engine = create_engine(POSTGRES_URL)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=postgres_engine)
+Session = sessionmaker(autocommit=False, autoflush=False, bind=postgres_engine)
 
-postgres_db = databases.Database(DATABASE_URL)
+postgres_db = databases.Database(POSTGRES_URL)
+
+metadata = MetaData()
+
 
