@@ -48,3 +48,15 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 .idea
+.env
+pg_db
+rd_db
+settings.ini
+sessions
+storage
+azurecredentialcache
+pg_admin
+pgadmin4.db
+sessions
+storage
+

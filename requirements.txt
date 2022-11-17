@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+databases
+asyncpg
+psycopg2
+redis
+alembic
+aioredis
+sqlalchemy
+pydantic
